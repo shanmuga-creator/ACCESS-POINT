@@ -1,0 +1,31 @@
+#include <ESP8266WiFi.h>
+
+const char* ssid = "ESP32_AP";  // Same as ESP32 AP
+const char* password = "12345678";
+const char* host = "192.168.4.1";  // Default ESP32 AP IP
+const uint16_t port = 80;
+
+WiFiClient client;
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  Serial.println("Connecting to ESP32 AP...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected to ESP32 Access Point!");
+}
+
+void loop() {
+  if (client.connect(host, port)) {
+    Serial.println("Connected to ESP32");
+    client.println("Hello from ESP8266");
+    delay(2000);
+  } else {
+    Serial.println("Connection to ESP32 failed");
+  }
+  delay(5000);
+}
